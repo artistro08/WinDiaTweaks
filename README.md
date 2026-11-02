@@ -135,6 +135,13 @@ The idea, the tweak list and the Settings → Patches design come from [DiaTweak
 
 Dia is a trademark of The Browser Company. This project isn't affiliated with, endorsed by or supported by The Browser Company. Please don't report WinDiaTweaks problems to them; [open an issue here](https://github.com/zioder/WinDiaTweaks/issues) instead.
 
+## Support
+
+If WinDiaTweaks is useful to you, you can support its development:
+
+- [GitHub Sponsors](https://github.com/sponsors/zioder)
+- [Buy Me a Coffee](https://buymeacoffee.com/zioder)
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).

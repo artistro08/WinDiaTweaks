@@ -1,5 +1,9 @@
 # WinDiaTweaks
 
+
+<img width="2557" height="1597" alt="image" src="https://github.com/user-attachments/assets/5331dcf8-cc89-49fb-889d-0d0a1ab7427a" />
+
+
 Small tweaks for [Dia](https://www.diabrowser.com) on Windows, switched on and off from Dia's own Settings.
 
 Unofficial and not affiliated with The Browser Company. Windows 11 x64, Dia for Windows (tested with 1.5.0.588).

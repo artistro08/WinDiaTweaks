@@ -1,0 +1,18 @@
+# Build output and your own settings/logs
+bin/
+
+# Made from the Dia installed on your PC by gen-winrt.cmd. Never commit: it's Dia's.
+winmd/
+gen/
+
+# Local experiments, not part of the build
+src/dia-load.cpp
+src/launch_direct.cpp
+src/test_attach.cpp
+build-loader.cmd
+
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib

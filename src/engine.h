@@ -1,0 +1,57 @@
+#pragma once
+// Shared between tap.cpp (tree tracking + property rules) and ui.cpp (the Patches page and tweaks that
+// need real code). Everything here is called on one of Dia's UI threads unless noted.
+
+#include <windows.h>
+#include <xamlOM.h>
+
+#include <functional>
+#include <string>
+#include <utility>
+#include <vector>
+
+struct TweakInfo {
+    std::wstring key, title, desc, section, icon, value;
+    std::vector<std::pair<std::wstring, std::wstring>> choices;  // value -> label
+    bool enabled = false;
+};
+
+// ---- provided by tap.cpp
+void Engine_Log(const char* fmt, ...);
+std::wstring Engine_Dir();
+std::vector<TweakInfo> Engine_Tweaks();
+bool Engine_TweakOn(const std::wstring& key);
+std::wstring Engine_TweakValue(const std::wstring& key);
+// Writes tweaks.conf and applies it right away. value may be null (leave as is).
+void Engine_SetTweak(const std::wstring& key, bool on, const std::wstring* value);
+void Engine_SetAll(bool on);
+// Several tweaks in one write (presets): on/off states and values.
+void Engine_SetMany(const std::vector<std::pair<std::wstring, bool>>& states,
+                    const std::vector<std::pair<std::wstring, std::wstring>>& values);
+bool Engine_SafeMode();
+bool Engine_Hover();  // pointer at the top edge (reveal toolbar on hover)
+void Engine_LeaveSafeMode();
+// Live elements on the calling UI thread.
+struct NodeRef {
+    InstanceHandle handle;
+    std::wstring type, name;
+};
+void Engine_ForEachNode(const std::function<void(const NodeRef&)>& fn);
+InstanceHandle Engine_Parent(InstanceHandle h);
+std::wstring Engine_Name(InstanceHandle h);
+std::wstring Engine_Type(InstanceHandle h);
+IInspectable* Engine_Object(InstanceHandle h);  // AddRef'd, or null
+// Dia changed a property that a tweak overrides; newText is Dia's new value as text.
+void Engine_OnDiaChanged(InstanceHandle h, const std::wstring& prop, const std::wstring& newText);
+
+// ---- provided by ui.cpp
+// Runs every timer tick on each UI thread. Returns true when a state used by rules changed.
+bool Ui_Tick();
+// Window states rules can depend on (state=<name>): sidebarOpen, newTab.
+bool Ui_State(const std::wstring& name);
+// Called right after rules that depend on a state were re-applied (e.g. the toolbar was just shown).
+void Ui_StateApplied();
+// Start watching a property the engine overrides, to catch Dia changing it back.
+void Ui_WatchProperty(InstanceHandle h, const std::wstring& prop);
+// A named element just entered Dia's UI tree (called from the tree-change notification).
+void Ui_ElementAdded(const std::wstring& name);

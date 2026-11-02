@@ -4,7 +4,7 @@
 <img width="2557" height="1597" alt="image" src="https://github.com/user-attachments/assets/5331dcf8-cc89-49fb-889d-0d0a1ab7427a" />
 
 
-Small tweaks for [Dia](https://www.diabrowser.com) on Windows, switched on and off from Dia's own Settings.
+Customize how [Dia](https://www.diabrowser.com) looks on Windows, with every option right inside Dia's Settings.
 
 Unofficial and not affiliated with The Browser Company. Windows 11 x64, Dia for Windows (tested with 1.5.0.588).
 
@@ -12,7 +12,7 @@ Inspired by [DiaTweaks](https://github.com/JaceThings/DiaTweaks) for macOS by [J
 
 ## Tweaks
 
-Each tweak changes one part of how Dia looks, like the gap around pages or a button in the toolbar. Turn them on and off in **Dia → Settings → Patches**, or with the `diatweaks` command. Changes apply straight away.
+Every tweak targets a single detail of Dia's interface: the margin around web pages, a toolbar button, the window background. Switch them in **Dia → Settings → Patches** or from the `diatweaks` command; Dia updates instantly, no restart needed.
 
 At the top of **Patches**, **Preset** sets everything at once:
 
@@ -78,7 +78,7 @@ It builds WinDiaTweaks on your PC, adds **Dia (Tweaks)** to the Start menu and r
 | `diatweaks status` | Shows whether Dia is running with the tweaks, and which are on |
 | `diatweaks restart` | Closes Dia and opens it again with the tweaks |
 
-Tweak names work as keys or titles, like `hideToolbar` or `"Hide toolbar (reveal on hover)"`.
+You can name a tweak by its key (`hideToolbar`) or by the title shown in Settings (`"Hide toolbar (reveal on hover)"`).
 
 ## Updating
 
@@ -93,7 +93,7 @@ After Dia itself updates, run the same. If the build complains, delete the `gen`
 <details>
 <summary><strong>Is it safe?</strong></summary>
 
-It's built on your PC from this code. It only changes how Dia looks, and never reads your pages, history or passwords. Your settings are one text file, `bin\tweaks.conf`.
+You compile it yourself from the code in this repo, so you can see everything it does. It only rearranges and restyles Dia's interface; it has no access to what you browse, your history or your saved passwords. Your choices live in one plain text file, `bin\tweaks.conf`.
 
 </details>
 
@@ -107,7 +107,7 @@ Nothing in Dia's install folder is changed. `diatweaks.exe` opens Dia and loads 
 <details>
 <summary><strong>Does it run in the background?</strong></summary>
 
-No. It only does anything while Dia is open. Dia opened any other way than **Dia (Tweaks)** or `diatweaks` runs without the tweaks.
+No. Nothing stays running after you close Dia, and nothing starts with Windows. If you open Dia some other way than **Dia (Tweaks)** or `diatweaks`, you simply get Dia without the tweaks.
 
 </details>
 
@@ -121,7 +121,7 @@ Loading an add-on into another app is something antivirus software watches for. 
 <details>
 <summary><strong>What if Dia keeps crashing?</strong></summary>
 
-If Dia closes twice in a row right after opening, it opens next time with the tweaks off. **Settings → Patches** has a button to turn them back on.
+WinDiaTweaks watches for that: after two launches in a row where Dia closes almost immediately, the next launch skips the tweaks (safe mode). Once things are sorted, re-enable them from the button at the top of **Settings → Patches**.
 
 </details>
 

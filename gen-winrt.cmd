@@ -2,8 +2,10 @@
 rem Makes C++/WinRT headers (gen\) from the WinUI metadata shipped inside Dia, so the add-on is built
 rem against exactly the WinUI version Dia runs. Re-run after a Dia update if the build complains.
 setlocal
+rem Full path: build.cmd narrows PATH, and some PCs lack PowerShell's folder in it.
+set "PS=%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
 cd /d "%~dp0"
-for /f "usebackq delims=" %%p in (`powershell -NoProfile -Command "(Get-AppxPackage TheBrowserCompany.Dia).InstallLocation"`) do set "DIA=%%p"
+for /f "usebackq delims=" %%p in (`%PS% -NoProfile -Command "(Get-AppxPackage TheBrowserCompany.Dia).InstallLocation"`) do set "DIA=%%p"
 if not defined DIA (echo Dia is not installed & exit /b 1)
 if not exist winmd mkdir winmd
 for %%f in (Microsoft.UI.Xaml Microsoft.UI Microsoft.UI.Text Microsoft.Foundation Microsoft.Graphics Microsoft.Windows.ApplicationModel.Resources) do copy /y "%DIA%\%%f.winmd" winmd\ >nul
@@ -20,5 +22,5 @@ exit /b 0
 :webview2
 rem Dia's WinUI metadata refers to WebView2's; take it from Microsoft's public NuGet package.
 echo Downloading Microsoft.Web.WebView2 from nuget.org (for its metadata file)...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $d=Join-Path $env:TEMP 'windiatweaks-webview2'; Remove-Item -Recurse -Force $d -ErrorAction SilentlyContinue; New-Item -ItemType Directory $d | Out-Null; Invoke-WebRequest 'https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.3719.77' -OutFile \"$d\p.zip\"; Expand-Archive \"$d\p.zip\" \"$d\p\"; Copy-Item \"$d\p\lib\Microsoft.Web.WebView2.Core.winmd\" 'winmd\'"
+%PS% -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $d=Join-Path $env:TEMP 'windiatweaks-webview2'; Remove-Item -Recurse -Force $d -ErrorAction SilentlyContinue; New-Item -ItemType Directory $d | Out-Null; Invoke-WebRequest 'https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.3719.77' -OutFile \"$d\p.zip\"; Expand-Archive \"$d\p.zip\" \"$d\p\"; Copy-Item \"$d\p\lib\Microsoft.Web.WebView2.Core.winmd\" 'winmd\'"
 exit /b 0

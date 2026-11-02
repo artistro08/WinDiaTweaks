@@ -1,15 +1,14 @@
 # Contributing
 
-Keep it small, test it hard, show it working.
+Thanks for helping out. The short version: small changes, checked by hand in Dia, with a screenshot.
 
-## Pull requests
+## Opening a pull request
 
-- One change per PR.
-- Fill in the template: What, Why, Proof, Tested on, Checklist. Short sentences.
-- Never leave a section empty or delete it. If one doesn't apply, write `N/A`.
-- Proof is required for anything visible in Dia: a screenshot for static changes, a screen recording for anything that animates. Show before and after when you change existing behaviour.
-- Try to break what you made before you open the PR, and fix what you find. Every change has to work with the tweak on and off, with the sidebar docked, closed and floating, in split view, and on the New Tab page.
-- Build with `build.cmd` (or `reload.ps1`, which also restarts Dia) and run it on your own Dia.
+- Keep each PR to a single change. Two unrelated fixes are two PRs.
+- Use the template (What, Why, Proof, Tested on, Checklist) and answer every part briefly. Write `N/A` where something doesn't apply rather than removing it.
+- Anything you can see in Dia needs proof: a screenshot, or a short recording if it moves. If you change how an existing tweak behaves, show it before and after.
+- Look for the ways your change could go wrong before submitting: turn the tweak on and off, dock, close and hover the sidebar, open split view and the New Tab page.
+- Build with `build.cmd` (`reload.ps1` builds and restarts Dia in one go) and use it in your own Dia for a while.
 
 ## How it's put together
 
@@ -40,32 +39,32 @@ Keep it small, test it hard, show it working.
    - `diatweaks dump` writes Dia's whole UI tree, with names, types and properties, to `bin\tree.txt`.
    - `diatweaks probe FooButton FooButton*` describes live elements: size, position, visibility, corner radius. A trailing `*` lists everything inside.
 3. Hiding, moving or recoloring an element is a rule. Anything that has to react to Dia (animations, moving controls, keyboard shortcuts) goes in `src/ui.cpp`; read `Engine_TweakOn("yourKey")` and undo everything you changed when it turns off.
-4. Never fight Dia frame by frame. When Dia sets a property your tweak overrides, the engine is told before the frame is drawn and puts your value back, so there's no flicker. Use that (rules, or `RegisterPropertyChangedCallback` in code) rather than timers.
+4. Don't correct Dia on a timer. When Dia sets a property your tweak overrides, the engine hears about it before the frame is drawn and puts your value back, so nothing flickers. Rely on that (rules, or `RegisterPropertyChangedCallback` in code).
 
 ## Testing
 
-There's no automated test run yet. Before a PR, check by hand:
+There are no automated tests yet. Before a PR, check by hand:
 
-- The tweak on, off, and on again without restarting Dia: Dia must look exactly as before when it's off.
+- The tweak on, off, and on again without restarting Dia. With it off, Dia must look exactly as it did before.
 - **Preset → Arc** and **Preset → None** with your tweak in the mix.
-- Sidebar docked, closed, and floating on hover; split view; the New Tab page; switching tabs fast.
-- `diatweaks restart`: it must apply cleanly when Dia starts.
+- Sidebar docked, closed, and floating on hover; split view; the New Tab page; switching tabs quickly.
+- `diatweaks restart`: the tweak applies cleanly as Dia starts.
 
-`bin\tap.log` shows what the engine did.
+`bin\tap.log` records what the engine did.
 
-## Commits
+## Commit messages
 
-- [Conventional Commits](https://www.conventionalcommits.org): `fix(arc): keep the sidebar button visible in split view`.
-- Imperative, lowercase, under 72 characters. Add a body only if the diff would mislead without it.
+- Follow [Conventional Commits](https://www.conventionalcommits.org), for example `fix(arc): keep the sidebar button visible in split view`.
+- Present tense, lowercase, first line under 72 characters. Only add a body when the change needs explaining.
 
-## AI tools
+## Using AI tools
 
-Use whatever tools you like. You're responsible for what you submit: it has to work, and you have to have tested it yourself.
+AI assistants are welcome. What you submit is still yours: you need to have run it and checked that it works.
 
-No slop: no padded descriptions, generated summaries or filler. PRs that read like unchecked AI output are closed without review.
+Keep descriptions plain and specific. PRs full of generic, untested generated text will be closed.
 
-## Never
+## Please don't
 
-- Commit Dia itself or anything from its install folder. That includes `winmd\` and `gen\`, which are made from it on your PC.
-- Change files in Dia's install folder, or anything outside how Dia looks and behaves on screen.
-- Read, store or send pages, history, passwords or other data from Dia.
+- Commit Dia or any of its files. `winmd\` and `gen\` are made from your Dia install, so they stay out of git too.
+- Change anything in Dia's install folder, or do anything beyond changing how Dia looks and behaves on screen.
+- Read, store or send pages, history, passwords or any other data from Dia.

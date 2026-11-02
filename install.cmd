@@ -17,10 +17,12 @@ echo Added "Dia (Tweaks)" to the Start menu.
 echo.
 echo Done. Open Dia from "Dia (Tweaks)" from now on, then Settings ^> Patches.
 
-rem Optional: star the repo. Only with a yes; uses the GitHub CLI if it's signed in, else opens the page.
+rem Optional: star the repo, only after the person presses y. Keys typed during the build are thrown
+rem away first so they can't answer for them; without a console to ask in, the answer is no.
+rem With a yes it stars through the GitHub CLI if that's signed in, otherwise it opens the repo page.
 echo.
-%SystemRoot%\System32\choice.exe /c yn /n /m "Star WinDiaTweaks on GitHub? [y/n] "
-if errorlevel 2 exit /b 0
+%PS% -NoProfile -Command "try { $Host.UI.RawUI.FlushInputBuffer() } catch { exit 1 }; Write-Host -NoNewline 'Star WinDiaTweaks on GitHub? [y/n] '; while ($true) { $k = [string]$Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').Character; if ($k -eq 'y') { Write-Host 'y'; exit 0 }; if ($k -eq 'n') { Write-Host 'n'; exit 1 } }"
+if errorlevel 1 exit /b 0
 where gh >nul 2>nul || goto :starpage
 gh auth status >nul 2>nul || goto :starpage
 gh api -X PUT user/starred/zioder/WinDiaTweaks --silent >nul 2>nul || goto :starpage

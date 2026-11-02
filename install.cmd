@@ -16,3 +16,17 @@ echo Added "Dia (Tweaks)" to the Start menu.
 "%~dp0bin\diatweaks.exe" restart
 echo.
 echo Done. Open Dia from "Dia (Tweaks)" from now on, then Settings ^> Patches.
+
+rem Optional: star the repo. Only with a yes; uses the GitHub CLI if it's signed in, else opens the page.
+echo.
+%SystemRoot%\System32\choice.exe /c yn /n /m "Star WinDiaTweaks on GitHub? [y/n] "
+if errorlevel 2 exit /b 0
+where gh >nul 2>nul || goto :starpage
+gh auth status >nul 2>nul || goto :starpage
+gh api -X PUT user/starred/zioder/WinDiaTweaks --silent >nul 2>nul || goto :starpage
+echo Starred. Thank you!
+exit /b 0
+:starpage
+start "" https://github.com/zioder/WinDiaTweaks
+echo Opened the repo page: click the Star button at the top right. Thank you!
+exit /b 0

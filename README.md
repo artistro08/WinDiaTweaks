@@ -63,7 +63,7 @@ At the top of **Patches**, **Preset** sets everything at once:
    git clone https://github.com/zioder/WinDiaTweaks.git "$HOME\WinDiaTweaks"; & "$HOME\WinDiaTweaks\install.cmd"
    ```
 
-It builds WinDiaTweaks on your PC, adds **Dia (Tweaks)** to the Start menu and reopens Dia with the tweaks. Open Dia from **Dia (Tweaks)** from now on, then go to **Settings → Patches**.
+It builds WinDiaTweaks on your PC, adds **Dia (Tweaks)** to the Start menu and reopens Dia with the tweaks. At the end it asks whether you'd like to star the repo (y/n): with the [GitHub CLI](https://cli.github.com) signed in it stars it for you, otherwise it opens the repo page. Open Dia from **Dia (Tweaks)** from now on, then go to **Settings → Patches**.
 
 ## The `diatweaks` command
 

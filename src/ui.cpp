@@ -5,6 +5,9 @@
 // Runs on Dia's UI threads only (called from the engine's timer and from WinUI events).
 
 #include <unknwn.h>
+// windows.h maps GetCurrentTime to GetTickCount (a Win16 leftover), which clashes with WinUI's
+// Storyboard::GetCurrentTime.
+#undef GetCurrentTime
 #include <algorithm>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
